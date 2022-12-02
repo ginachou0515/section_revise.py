@@ -33,17 +33,17 @@ def write_xml(tree, out_path):
        out_path: 寫出路徑'''
     tree.write(out_path, encoding="utf-8", xml_declaration=True)
 
-def change_one_xml(xml_path, xml_dw, update_content):
+def change_one_xml(tree, xml_dw,attrib,update_content):
     # 打開xml文檔
-    doc = ET.parse(xml_path)
-    root = doc.getroot()
+    # tree = ET.parse(xml_path)
+    root = tree.getroot()
     # 查找修改路勁
     sub1 = root.find(xml_dw)
-    # 修改標籤內容
-    # sub1.text = update_content
-    sub1.set("roadsection", update_content)
-    # # 保存修改
-    # doc.write(xml_path)
+    # 修改屬性內容
+    sub1.set(attrib, update_content)
+    #回傳修改後的xml
+    return tree
+
 
 # https://blog.51cto.com/u_12386780/5479899
 
@@ -54,30 +54,37 @@ if __name__ == "__main__":
     xml= "roadlevel_info_0000.xml"
     xml_file = os.path.join(path, xml)
     tree = read_xml(xml_file)
-    root = tree.getroot()
+    # root = tree.getroot()
+    # # 修改文件中的xpath定位
+    # xml_dw = './/Info[@routeid="nfb0001"]'
+    # # 查找修改路勁
+    # sub1 = root.find(xml_dw)
+    # #修改屬性與對應內容
+    # sub1.set("roadsection", update_content)
 
     # 修改文件中的xpath定位
     xml_dw = './/Info[@routeid="nfb0001"]'
-
+    #想要修改的屬性
+    attrib = "roadsection"
     # 想要修改成什麼內容
-    update_content = "國道1號"
+    update_content = "新變"
+    tree = change_one_xml(tree, xml_dw, attrib, update_content)
 
-    # 查找修改路勁
-    sub1 = root.find(xml_dw)
+    xml_dw = './/Info[@routeid="nfb0001"]'
+    attrib = "fromkm"
+    # 想要修改成什麼內容
+    update_content = "新變0"
+    tree = change_one_xml(tree, xml_dw, attrib, update_content)
+
+    xml_dw = './/Info[@routeid="nfb0001"]'
+    attrib = "tokm"
+    # 想要修改成什麼內容
+    update_content = "新變1"
+    tree = change_one_xml(tree, xml_dw, attrib, update_content)
+
+    tree.write("out.xml")
+
+
     # 修改標籤內容
-    sub1.text = update_content
-    write_xml(tree, "out.xml")
+    # sub1.text = update_content
     # write_xml(tree, "road/out.xml")
-
-    # # 保存修改
-    # doc.write(xml_path)
-
-    # # 2. 屬性修改
-    # sub1 = root.find("sub1")  # 修改sub1的name属性
-    # sub1.set("name", "New Name")roadsection
-
-
-    # # 6. 輸出到結果文件
-    # write_xml(tree, "venv/out.xml")
-
-    print(f"TREE:{tree}")
