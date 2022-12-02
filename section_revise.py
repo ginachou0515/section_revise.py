@@ -44,9 +44,9 @@ def change_one_xml(tree, xml_dw,attrib,update_content):
     #回傳修改後的xml
     return tree
 
-
 # https://blog.51cto.com/u_12386780/5479899
 
+###路段即時路況動態資訊(LiveTraffic.xml)及路段基本資訊(Section.xml)缺少國4潭子、潭子系統、台74潭子系統相關路段部分。
 
 if __name__ == "__main__":
     # 1. 讀取xml文件
@@ -54,13 +54,7 @@ if __name__ == "__main__":
     xml= "roadlevel_info_0000.xml"
     xml_file = os.path.join(path, xml)
     tree = read_xml(xml_file)
-    # root = tree.getroot()
-    # # 修改文件中的xpath定位
-    # xml_dw = './/Info[@routeid="nfb0001"]'
-    # # 查找修改路勁
-    # sub1 = root.find(xml_dw)
-    # #修改屬性與對應內容
-    # sub1.set("roadsection", update_content)
+
 
     # 修改文件中的xpath定位
     xml_dw = './/Info[@routeid="nfb0001"]'
@@ -82,7 +76,7 @@ if __name__ == "__main__":
     update_content = "新變1"
     tree = change_one_xml(tree, xml_dw, attrib, update_content)
 
-    tree.write("out.xml")
+    tree.write("new_roadlevel_info_0000.xml")
 
 
     # 修改標籤內容
